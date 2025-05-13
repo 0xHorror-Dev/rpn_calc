@@ -7,7 +7,7 @@ void print_rpn(CC_Array* rpn) {
     size_t size = cc_array_size(rpn);
     for (size_t i = 0; i < size; i++) {
         token_t* tok;
-        cc_array_get_at(rpn, i, &tok);
+        cc_array_get_at(rpn, i, ((void**)&tok));
 
         if (tok->type == TOKEN_TYPE_NUM) {
             printf("%" PRId64 " ", tok->sym);
@@ -24,7 +24,7 @@ void print_rpn(CC_Array* rpn) {
 }
 
 void run_tokenizer_tests() {
-    // Тест 1: Простые числа и операторы
+    // пїЅпїЅпїЅпїЅ 1: пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     //{
     //    printf("Test 1: '22 33 + 55 +' -> ");
     //    CC_Array* rpn = tokenize("22 + 33 + 55");
@@ -48,7 +48,7 @@ void run_tokenizer_tests() {
     //    printf("Passed\n");
     //}
 
-    // Тест 2: Отрицательные числа
+    // пїЅпїЅпїЅпїЅ 2: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     {
         printf("Test 2: '-5 + 3 - (-2)' -> ");
         CC_Array* rpn = tokenize("-5 + 3 - (-2)");
@@ -58,7 +58,7 @@ void run_tokenizer_tests() {
         assert(cc_array_size(rpn) == 7);
         for (size_t i = 0; i < 7; i++) {
             token_t* tok;
-            cc_array_get_at(rpn, i, &tok);
+            cc_array_get_at(rpn, i, ((void**)&tok));
 
             if (tok->type == TOKEN_TYPE_NUM) {
                 assert(tok->sym == atoi(expected[i]));
@@ -78,7 +78,7 @@ void run_tokenizer_tests() {
         printf("Passed\n");
     }
 
-    // Тест 3: Скобки и приоритеты операторов
+    // пїЅпїЅпїЅпїЅ 3: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     {
         printf("Test 3: '(2 + 3) * 4 - 5' -> ");
         CC_Array* rpn = tokenize("(2 + 3) * 4 - 5");
@@ -88,7 +88,7 @@ void run_tokenizer_tests() {
 
         for (size_t i = 0; i < 9; i++) {
             token_t* tok;
-            cc_array_get_at(rpn, i, &tok);
+            cc_array_get_at(rpn, i, ((void**)&tok));
 
             if (tok->type == TOKEN_TYPE_NUM) {
                 assert(tok->sym == atoi(expected[i]));
@@ -108,7 +108,7 @@ void run_tokenizer_tests() {
         printf("Passed\n");
     }
 
-    // Тест 4: Множественные скобки и отрицательные числа
+    // пїЅпїЅпїЅпїЅ 4: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     {
         printf("Test 4: '-((3 + 4) * -5)' -> ");
         CC_Array* rpn = tokenize("-((3 + 4) * -5)");
@@ -118,7 +118,7 @@ void run_tokenizer_tests() {
 
         for (size_t i = 0; i < 10; i++) {
             token_t* tok;
-            cc_array_get_at(rpn, i, &tok);
+            cc_array_get_at(rpn, i, ((void**)&tok));
 
             if (tok->type == TOKEN_TYPE_NUM) {
                 assert(tok->sym == atoi(expected[i]));
@@ -138,7 +138,7 @@ void run_tokenizer_tests() {
         printf("Passed\n");
     }
 
-    // Тест 5: Комбинация разных операторов
+    // пїЅпїЅпїЅпїЅ 5: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     {
         printf("Test 5: '2 * -3 + 4 / (-5 + 2)' -> ");
         CC_Array* rpn = tokenize("2 * -3 + 4 / (-5 + 2)");
@@ -148,7 +148,7 @@ void run_tokenizer_tests() {
 
         for (size_t i = 0; i < 11; i++) {
             token_t* tok;
-            cc_array_get_at(rpn, i, &tok);
+            cc_array_get_at(rpn, i, ((void**)&tok));
 
             if (tok->type == TOKEN_TYPE_NUM) {
                 assert(tok->sym == atoi(expected[i]));

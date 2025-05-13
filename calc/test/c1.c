@@ -9,7 +9,7 @@ static void print_rpn(CC_Array* rpn) {
     size_t size = cc_array_size(rpn);
     for (size_t i = 0; i < size; i++) {
         token_t* tok;
-        cc_array_get_at(rpn, i, &tok);
+        cc_array_get_at(rpn, i, ((void**)&tok));
 
         if (tok->type == TOKEN_TYPE_NUM) {
             printf("%" PRId64 " ", tok->sym);

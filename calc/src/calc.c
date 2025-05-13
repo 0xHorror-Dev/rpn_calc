@@ -14,7 +14,7 @@ static inline void free_stack(CC_Stack* stack)
 	for (size_t i = 0; i < len; i += 1)
 	{
 		num_t* val;
-		cc_stack_pop(stack, &val);
+		cc_stack_pop(stack,(void**)&val);
 		free(val);
 	}
 
@@ -34,7 +34,7 @@ num_t calc(CC_Array* rpn, uint8_t* err)
 	for (size_t i = 0; i < len; i += 1)
 	{
 		token_t* tok;
-		if (cc_array_get_at(rpn, i, &tok) != CC_OK)
+		if (cc_array_get_at(rpn, i, (void**)&tok) != CC_OK)
 		{
 			free_stack(stack);
 			*err = 1;
@@ -65,13 +65,13 @@ num_t calc(CC_Array* rpn, uint8_t* err)
 		{
 			num_t* out1;
 			num_t* out2;
-			if (cc_stack_pop(stack, &out1) != CC_OK)
+			if (cc_stack_pop(stack, (void**)&out1) != CC_OK)
 			{
 				free_stack(stack);
 				*err = 1;
 				return -1;
 			}
-			if (cc_stack_pop(stack, &out2) != CC_OK)
+			if (cc_stack_pop(stack, (void**)&out2) != CC_OK)
 			{
 				free(out1);
 				free_stack(stack);
@@ -129,7 +129,7 @@ num_t calc(CC_Array* rpn, uint8_t* err)
 	}
 
 	num_t* res = NULL;
-	if (cc_stack_pop(stack, &res) != CC_OK)
+	if (cc_stack_pop(stack, (void**)&res) != CC_OK)
 	{
 		free_stack(stack);
 		*err = 1;

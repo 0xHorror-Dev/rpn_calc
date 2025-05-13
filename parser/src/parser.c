@@ -56,7 +56,7 @@ static void print_rpn(CC_Array* rpn) {
     size_t size = cc_array_size(rpn);
     for (size_t i = 0; i < size; i++) {
         token_t* tok;
-        cc_array_get_at(rpn, i, &tok);
+        cc_array_get_at(rpn, i, ((void**)&tok));
 
         if (tok->type == TOKEN_TYPE_NUM) {
             printf("%" PRId64 " ", tok->sym);
@@ -79,7 +79,7 @@ void clear_token_arr(CC_Array* arr)
     for (size_t i = 0; i < size - 1; i += 1)
     {
         token_t* tok;
-        cc_array_get_at(arr, i, &tok);
+        cc_array_get_at(arr, i, ((void**)&tok));
         token_free(tok);
     }
 
@@ -92,7 +92,7 @@ static inline void clear_stack(CC_Stack* stack)
     for (size_t i = 0; i < size; i += 1)
     {
         token_t* tok;
-        cc_stack_pop(stack, &tok);
+        cc_stack_pop(stack, ((void**)&tok));
         token_free(tok);
     }
 
@@ -117,7 +117,7 @@ CC_Array* tokenize(const char* str)
         if (c == '-')
         {
             token_t* last;
-            if (cc_array_get_last(sout, &last) == CC_OK)
+            if (cc_array_get_last(sout, ((void**)&last)) == CC_OK)
             {
                 if ((last->type == TOKEN_TYPE_OP || last->type == TOKEN_TYPE_OPEN_BRACKET || last->type == TOKEN_TYPE_CLOSED_BRACKET) && (i < slen && isdigit(str[i + 1])))
                 {
@@ -139,7 +139,7 @@ CC_Array* tokenize(const char* str)
                     char null_term = 0x0;
                     cc_array_sized_add(reader, &null_term);
 
-                    const char* buf = cc_array_sized_get_buffer(reader);
+                    const char* buf  = (const char*)cc_array_sized_get_buffer(reader);
 
                     int64_t num = atoll(buf);
 
@@ -180,7 +180,7 @@ CC_Array* tokenize(const char* str)
                     char null_term = 0x0;
                     cc_array_sized_add(reader, &null_term);
 
-                    const char* buf = cc_array_sized_get_buffer(reader);
+                    const char* buf = (const char*)cc_array_sized_get_buffer(reader);
 
                     int64_t num = atoll(buf);
 
@@ -232,7 +232,7 @@ CC_Array* tokenize(const char* str)
             
             char null_term = 0x0;
             cc_array_sized_add(reader, &null_term);
-            const char* buf = cc_array_sized_get_buffer(reader);
+            const char* buf = (const char*)cc_array_sized_get_buffer(reader);
             int64_t num = atoll(buf);
 
             token_t* new_tok = token_init(num, TOKEN_TYPE_NUM);
@@ -274,16 +274,16 @@ CC_Array* convert_rpn(CC_Array* arr)
     for (size_t i = 0; i < slen; i += 1)
     {
         token_t* token;
-        cc_array_get_at(arr, i, &token);
+        cc_array_get_at(arr, i, ((void**)&token));
 
         switch (token->type)
         {
         case TOKEN_TYPE_OP:
         {
             token_t* prev_op;
-            while (cc_stack_peek(stack, &prev_op) == CC_OK&& prev_op->sym != '(' &&  (get_prior(prev_op->sym) > get_prior(token->sym) || (get_prior(prev_op->sym) == get_prior(token->sym) && is_left_assoc(token->sym))))
+            while (cc_stack_peek(stack, ((void**)&prev_op)) == CC_OK&& prev_op->sym != '(' &&  (get_prior(prev_op->sym) > get_prior(token->sym) || (get_prior(prev_op->sym) == get_prior(token->sym) && is_left_assoc(token->sym))))
             {
-                if (cc_stack_pop(stack, &prev_op) != CC_OK)
+                if (cc_stack_pop(stack, ((void**)&prev_op)) != CC_OK)
                     break;
                 
                 if (cc_array_add(sout, prev_op) != CC_OK)
@@ -323,7 +323,7 @@ CC_Array* convert_rpn(CC_Array* arr)
         case TOKEN_TYPE_CLOSED_BRACKET:
         {
             token_t* out = NULL;
-            if (cc_stack_pop(stack, &out) == CC_OK)
+            if (cc_stack_pop(stack, ((void**)&out)) == CC_OK)
             {
                 while (out->type != TOKEN_TYPE_OPEN_BRACKET)
                 {
@@ -333,7 +333,7 @@ CC_Array* convert_rpn(CC_Array* arr)
                         cc_array_destroy(sout);
                         return NULL;
                     }
-                    if (cc_stack_pop(stack, &out) == CC_ERR_VALUE_NOT_FOUND) break;
+                    if (cc_stack_pop(stack, ((void**)&out)) == CC_ERR_VALUE_NOT_FOUND) break;
                     if (out->type == TOKEN_TYPE_OPEN_BRACKET) break;
                 }
                 //print_rpn(sout);
@@ -349,7 +349,7 @@ CC_Array* convert_rpn(CC_Array* arr)
     int64_t size = cc_stack_size(stack);
     while (size > 0)
     {
-        if (cc_stack_pop(stack, &out) != CC_OK)
+        if (cc_stack_pop(stack, ((void**)&out)) != CC_OK)
         {
             cc_stack_destroy(stack);
             cc_array_destroy(sout);
