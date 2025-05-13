@@ -39,7 +39,6 @@ void run_test(const char* expr, num_t expected, const char* test_name) {
     num_t res = calc(rpn, &err);
 
     printf("Expected: %" PRId64 ", got: %" PRId64 "\n", expected, res);
-    //printf("Expected: %f, got: %f\n", expected, res);
     print_rpn(rpn);
     assert(!err && "Calculation error occurred");
     assert(res == expected && "Wrong calculation result");

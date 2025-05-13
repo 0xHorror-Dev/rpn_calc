@@ -2,16 +2,16 @@
 
 include_directories(../Collections-C/src/include)
 
-add_executable(pt1 "t1.c")
+add_executable(tokenizer_test "tokenizer_test.c")
 add_test(
-    NAME test-pt1
-    COMMAND $<TARGET_FILE:pt1>
+    NAME test-tokenizer_test
+    COMMAND $<TARGET_FILE:tokenizer_test>
 )
-target_link_libraries(pt1 parser)
+target_link_libraries(tokenizer_test parser)
 
-add_executable(pt2 "t2.c")
+add_executable(rpn_test "rpn_test.c")
 add_test(
-    NAME test-pt2
-    COMMAND $<TARGET_FILE:pt2>
+    NAME test-rpn_test
+    COMMAND $<TARGET_FILE:rpn_test>
 )
-target_link_libraries(pt2 parser)
+target_link_libraries(rpn_test parser)

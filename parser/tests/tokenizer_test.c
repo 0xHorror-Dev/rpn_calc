@@ -24,31 +24,29 @@ void print_rpn(CC_Array* rpn) {
 }
 
 void run_tokenizer_tests() {
-    // ���� 1: ������� ����� � ���������
-    //{
-    //    printf("Test 1: '22 33 + 55 +' -> ");
-    //    CC_Array* rpn = tokenize("22 + 33 + 55");
+    {
+        printf("Test 1: '22 33 + 55 +' -> ");
+        CC_Array* rpn = tokenize("22 + 33 + 55");
 
-    //    const char* expected[] = { "22", "+", "33", "+", "55" };
-    //    assert(cc_array_size(rpn) == 5);
+        const char* expected[] = { "22", "+", "33", "+", "55" };
+        assert(cc_array_size(rpn) == 5);
 
-    //    for (size_t i = 0; i < 5; i++) {
-    //        token_t* tok;
-    //        cc_array_get_at(rpn, i, &tok);
+        for (size_t i = 0; i < 5; i++) {
+            token_t* tok;
+            cc_array_get_at(rpn, i, &tok);
 
-    //        if (tok->type == TOKEN_TYPE_NUM) {
-    //            assert(tok->sym == atoi(expected[i]));
-    //        }
-    //        else if (tok->type == TOKEN_TYPE_OP) {
-    //            assert((char)tok->sym == expected[i][0]);
-    //        }
-    //    }
-    //    print_rpn(rpn);
-    //    clear_token_arr(rpn);
-    //    printf("Passed\n");
-    //}
+            if (tok->type == TOKEN_TYPE_NUM) {
+                assert(tok->sym == atoi(expected[i]));
+            }
+            else if (tok->type == TOKEN_TYPE_OP) {
+                assert((char)tok->sym == expected[i][0]);
+            }
+        }
+        print_rpn(rpn);
+        clear_token_arr(rpn);
+        printf("Passed\n");
+    }
 
-    // ���� 2: ������������� �����
     {
         printf("Test 2: '-5 + 3 - (-2)' -> ");
         CC_Array* rpn = tokenize("-5 + 3 - (-2)");
@@ -78,7 +76,6 @@ void run_tokenizer_tests() {
         printf("Passed\n");
     }
 
-    // ���� 3: ������ � ���������� ����������
     {
         printf("Test 3: '(2 + 3) * 4 - 5' -> ");
         CC_Array* rpn = tokenize("(2 + 3) * 4 - 5");
@@ -108,7 +105,6 @@ void run_tokenizer_tests() {
         printf("Passed\n");
     }
 
-    // ���� 4: ������������� ������ � ������������� �����
     {
         printf("Test 4: '-((3 + 4) * -5)' -> ");
         CC_Array* rpn = tokenize("-((3 + 4) * -5)");
@@ -138,7 +134,6 @@ void run_tokenizer_tests() {
         printf("Passed\n");
     }
 
-    // ���� 5: ���������� ������ ����������
     {
         printf("Test 5: '2 * -3 + 4 / (-5 + 2)' -> ");
         CC_Array* rpn = tokenize("2 * -3 + 4 / (-5 + 2)");

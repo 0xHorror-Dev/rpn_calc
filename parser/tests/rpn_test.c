@@ -41,33 +41,31 @@ void det_print_rpn(CC_Array* rpn) {
 }
 
 void run_rpn_conversion_tests() {
-    // ���� 1: ������� ��������
-    //{
-    //    printf("Test 1: '3 + 4' -> ");
-    //    CC_Array* tokens = tokenize("3 + 4");
-    //    CC_Array* rpn = convert_rpn(tokens);
+    {
+        printf("Test 1: '3 + 4' -> ");
+        CC_Array* tokens = tokenize("3 + 4");
+        CC_Array* rpn = convert_rpn(tokens);
 
-    //    const char* expected[] = { "3", "4", "+" };
-    //    assert(cc_array_size(rpn) == 3);
+        const char* expected[] = { "3", "4", "+" };
+        assert(cc_array_size(rpn) == 3);
 
-    //    for (size_t i = 0; i < 3; i++) {
-    //        token_t* tok;
-    //        cc_array_get_at(rpn, i, &tok);
+        for (size_t i = 0; i < 3; i++) {
+            token_t* tok;
+            cc_array_get_at(rpn, i, &tok);
 
-    //        if (tok->type == TOKEN_TYPE_NUM) {
-    //            assert(tok->sym == atoi(expected[i]));
-    //        }
-    //        else if (tok->type == TOKEN_TYPE_OP) {
-    //            assert((char)tok->sym == expected[i][0]);
-    //        }
-    //    }
-    //    print_rpn(rpn);
-    //    clear_token_arr(tokens);
-    //    cc_array_destroy(rpn);
-    //    printf("Passed\n");
-    //}
+            if (tok->type == TOKEN_TYPE_NUM) {
+                assert(tok->sym == atoi(expected[i]));
+            }
+            else if (tok->type == TOKEN_TYPE_OP) {
+                assert((char)tok->sym == expected[i][0]);
+            }
+        }
+        print_rpn(rpn);
+        clear_token_arr(tokens);
+        cc_array_destroy(rpn);
+        printf("Passed\n");
+    }
 
-    // ���� 2: ������������� �����
     {
         printf("Test 2: '-5 + 3 - (-2)' -> ");
         CC_Array* tokens = tokenize("-5 + 3 - (-2)");
@@ -94,7 +92,6 @@ void run_rpn_conversion_tests() {
         printf("Passed\n");
     }
 
-    // ���� 3: ��������� ����������
     {
         printf("Test 3: '2 + 3 * 4' -> ");
         CC_Array* tokens = tokenize("2 + 3 * 4");
@@ -120,7 +117,6 @@ void run_rpn_conversion_tests() {
         printf("Passed\n");
     }
 
-    // ���� 4: ������
     {
         printf("Test 4: '(2 + 3) * 4' -> ");
         CC_Array* tokens = tokenize("(2 + 3) * 4");
@@ -146,7 +142,6 @@ void run_rpn_conversion_tests() {
         printf("Passed\n");
     }
 
-    // ���� 5: ����������� ���������
     {
         printf("Test 5: '3 + 4 * 2 / (1 - 5) + -2' -> ");
         CC_Array* tokens = tokenize("3 + 4 * 2 / (1 - 5) + -2");
@@ -172,7 +167,6 @@ void run_rpn_conversion_tests() {
         printf("Passed\n");
     }
 
-    // ���� 6: ������������� ������
     {
         printf("Test 6: '((2 + 3) * (4 - 1))' -> ");
         CC_Array* tokens = tokenize("((2 + 3) * (4 - 1))");
